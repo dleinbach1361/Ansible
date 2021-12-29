@@ -1,0 +1,45 @@
+---
+
+- hosts: allservers
+  user: root
+  pre_tasks:
+
+  - name: install updates CentOS
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install updates Ubuntu
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: allservers
+  user: root
+  tasks:
+
+  - name: create user melodie
+    tags: always
+    user:
+      name: melodie
+      groups: root
+
+  - name: add ssh key for melodie
+    tags: always
+    authorized_key:
+      user: melodie
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINV3qt2G7yApJo/pWfte1IX8D8cNyns2G2rifNK3dN5Z ansible"
+
+  - name: add sudoers file for melodie
+    tags: always
+    copy:
+      src: Files/sudoer_melodie
+      dest: /etc/sudoers.d/melodie
+      owner: root
+      group: root 
+      mode: 0440    
+
