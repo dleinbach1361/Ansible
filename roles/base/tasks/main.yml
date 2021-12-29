@@ -1,0 +1,4 @@
+- name: add ssh key for melodie
+  authorized_key:
+    user: melodie
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINV3qt2G7yApJo/pWfte1IX8D8cNyns2G2rifNK3dN5Z ansible"
